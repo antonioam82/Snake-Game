@@ -1,11 +1,15 @@
 import curses
 import time
+from curses import textpad
 
 menu = ['Nuevo Juego', 'Scoreboard', 'Salir']
 
 
 def print_menu(stdscr, selected_row_idx):
     stdscr.clear()
+    sh, sw = stdscr.getmaxyx()
+    box = [[3,3], [sh-3, sw-3]]  # [[ul_y, ul_x], [dr_y, dr_x]]
+    textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
     h, w = stdscr.getmaxyx()
     for idx, row in enumerate(menu):
         x = w//2 - len(row)//2
@@ -18,7 +22,6 @@ def print_menu(stdscr, selected_row_idx):
             stdscr.addstr(y, x, row)
     stdscr.refresh()
 
-
 def print_center(stdscr, text):
     stdscr.clear()
     h, w = stdscr.getmaxyx()
@@ -29,6 +32,7 @@ def print_center(stdscr, text):
 
 
 def main(stdscr):
+    
     curses.curs_set(0)
 
     curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
@@ -54,3 +58,4 @@ def main(stdscr):
 
 
 curses.wrapper(main)
+
