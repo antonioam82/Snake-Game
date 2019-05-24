@@ -23,11 +23,6 @@ def print_menu(stdscr, selected_row_idx):
             stdscr.addstr(y, x, row)
     stdscr.refresh()
 
-#def box():##
-    #sh, sw = stdscr.getmaxyx()
-    #box = [[3,3], [sh-3, sw-3]]  # [[ul_y, ul_x], [dr_y, dr_x]]
-    #textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
-
 
 def print_center(stdscr, text):
     stdscr.clear()
