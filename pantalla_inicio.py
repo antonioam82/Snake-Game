@@ -7,6 +7,7 @@ menu = ['Nuevo Juego', 'Scoreboard', 'Salir']
 
 def print_menu(stdscr, selected_row_idx):
     stdscr.clear()
+    stdscr.addstr(10, 50, "Juego de la Serpiente")
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3, sw-3]]  # [[ul_y, ul_x], [dr_y, dr_x]]
     textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
@@ -22,6 +23,12 @@ def print_menu(stdscr, selected_row_idx):
             stdscr.addstr(y, x, row)
     stdscr.refresh()
 
+#def box():##
+    #sh, sw = stdscr.getmaxyx()
+    #box = [[3,3], [sh-3, sw-3]]  # [[ul_y, ul_x], [dr_y, dr_x]]
+    #textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
+
+
 def print_center(stdscr, text):
     stdscr.clear()
     h, w = stdscr.getmaxyx()
@@ -29,33 +36,4 @@ def print_center(stdscr, text):
     y = h//2
     stdscr.addstr(y, x, text)
     stdscr.refresh()
-
-
-def main(stdscr):
-    
-    curses.curs_set(0)
-
-    curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
-
-    current_row = 0
-
-    print_menu(stdscr, current_row)
-
-    while 1:
-        key = stdscr.getch()
-
-        if key == curses.KEY_UP and current_row > 0:
-            current_row -= 1
-        elif key == curses.KEY_DOWN and current_row < len(menu)-1:
-            current_row += 1
-        elif key == curses.KEY_ENTER or key in [10, 13]:
-            print_center(stdscr, "You selected '{}'".format(menu[current_row]))
-            time.sleep(2)
-            if current_row == len(menu)-1:
-                break
-
-        print_menu(stdscr, current_row)
-
-
-curses.wrapper(main)
 
