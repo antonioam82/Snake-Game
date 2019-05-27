@@ -53,17 +53,22 @@ def pantalla(stdscr):
         elif key == curses.KEY_DOWN and current_row < len(menu)-1:
             current_row += 1
         elif key == curses.KEY_ENTER or key in [10, 13]:
-            if current_row==1:
+            if current_row== len(menu)-1:
                 print_center(stdscr, "See You Later!".format(menu[current_row]))
+                #time.sleep(2)
+                #stdscr.getch()
+                break
             else:
                 print_center(stdscr, "You selected '{}'".format(menu[current_row]))
-            time.sleep(2)
+                stdscr.clear()
+                main(stdscr)
+                break
+            #time.sleep(2)
             #stdscr.clear()
             #stdscr.getch()
             # if user selected last row, exit the program
             if current_row == len(menu)-1:
-                
-                #stdscr.getch()
+                stdscr.getch()
                 break
                 
             
@@ -157,8 +162,8 @@ def main(stdscr):
             stdscr.nodelay(0)
             stdscr.getch()
             time.sleep(2)
-            pantalla(stdscr)
             break
+    pantalla(stdscr)
 
 
 #pantalla(stdscr)
