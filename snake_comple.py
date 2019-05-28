@@ -54,8 +54,8 @@ def pantalla(stdscr):
             current_row += 1
         elif key == curses.KEY_ENTER or key in [10, 13]:
             if current_row== len(menu)-1:
-                print_center(stdscr, "See You Later!".format(menu[current_row]))
-                #time.sleep(2)
+                #print_center(stdscr, "See You Later!".format(menu[current_row]))
+                time.sleep(2)
                 #stdscr.getch()
                 break
             else:
@@ -159,8 +159,8 @@ def main(stdscr):
             snake[0] in snake[1:]):
             msg = "Game Over!"
             stdscr.addstr(sh//2, sw//2-len(msg)//2, msg)
-            stdscr.nodelay(0)
             stdscr.getch()
+            stdscr.nodelay(0)
             time.sleep(2)
             break
     pantalla(stdscr)
