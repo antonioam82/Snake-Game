@@ -161,8 +161,8 @@ def main(stdscr):
             snake[0] in snake[1:]):
             msg = "Game Over!"
             stdscr.addstr(sh//2, sw//2-len(msg)//2, msg)
-            stdscr.nodelay(0)
             stdscr.getch()
+            stdscr.nodelay(0)
             time.sleep(2)
             break
     pantalla(stdscr)
