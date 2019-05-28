@@ -57,7 +57,7 @@ def pantalla(stdscr):
         elif key == curses.KEY_ENTER or key in [10, 13]:
             if current_row== len(menu)-1:
                 print_center(stdscr, "See You Later!".format(menu[current_row]))
-                #time.sleep(2)
+                time.sleep(2)
                 #stdscr.getch()
                 break
             else:
