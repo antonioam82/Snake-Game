@@ -54,12 +54,12 @@ def pantalla(stdscr):
             current_row += 1
         elif key == curses.KEY_ENTER or key in [10, 13]:
             if current_row== len(menu)-1:
-                #print_center(stdscr, "See You Later!".format(menu[current_row]))
+                print_center(stdscr, "See You Later!".format(menu[current_row]))
                 time.sleep(2)
                 #stdscr.getch()
                 break
             else:
-                print_center(stdscr, "You selected '{}'".format(menu[current_row]))
+                #print_center(stdscr, "You selected '{}'".format(menu[current_row]))
                 stdscr.clear()
                 main(stdscr)
                 break
