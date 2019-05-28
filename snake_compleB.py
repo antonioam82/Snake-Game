@@ -61,7 +61,7 @@ def pantalla(stdscr):
                 #stdscr.getch()
                 break
             else:
-                print_center(stdscr, "You selected '{}'".format(menu[current_row]))
+                #print_center(stdscr, "You selected '{}'".format(menu[current_row]))
                 stdscr.clear()
                 main(stdscr)
                 break
