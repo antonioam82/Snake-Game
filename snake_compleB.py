@@ -2,6 +2,7 @@ import curses
 import time
 import random
 from curses import textpad
+#from curses import beep
 
 menu = ['Nuevo Juego', 'Salir']
 
@@ -141,6 +142,7 @@ def main(stdscr):
         if snake[0] == food:
             # update score
             score += 1
+            #curses.beep()############################
             score_text = "Score: {}".format(score)
             stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)
 
