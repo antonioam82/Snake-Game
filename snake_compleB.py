@@ -10,7 +10,7 @@ menu = ['Nuevo Juego', 'Salir']
 
 def print_menu(stdscr, selected_row_idx):
     stdscr.clear()
-    stdscr.addstr(9, 30, "Juego de la Serpiente")
+    stdscr.addstr(10, 50, "Juego de la Serpiente")
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3, sw-3]]  # [[ul_y, ul_x], [dr_y, dr_x]]
     textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
