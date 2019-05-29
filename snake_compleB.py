@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: latin-1 -*-
 import curses
 import time
 import random
@@ -8,7 +10,7 @@ menu = ['Nuevo Juego', 'Salir']
 
 def print_menu(stdscr, selected_row_idx):
     stdscr.clear()
-    stdscr.addstr(10, 50, "Juego de la Serpiente")
+    stdscr.addstr(9, 30, "Juego de la Serpiente")
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3, sw-3]]  # [[ul_y, ul_x], [dr_y, dr_x]]
     textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
@@ -58,25 +60,15 @@ def pantalla(stdscr):
         elif key == curses.KEY_ENTER or key in [10, 13]:
             if current_row== len(menu)-1:
                 print_center(stdscr, "See You Later!".format(menu[current_row]))
-                time.sleep(2)
                 #stdscr.getch()
+                time.sleep(2)
                 break
             else:
-                #print_center(stdscr, "You selected '{}'".format(menu[current_row]))
                 stdscr.clear()
                 main(stdscr)
                 break
-            #time.sleep(2)
-            #stdscr.clear()
-            #stdscr.getch()
-            # if user selected last row, exit the program
-            if current_row == len(menu)-1:
-                stdscr.getch()
-                break
-                
-            
-        print_menu(stdscr, current_row)
-
+        print_menu(stdscr, current_row)      
+          
 def create_food(snake, box):
     """Simple function to find coordinates of food which is inside box and not on snake body"""
     food = None
@@ -92,7 +84,7 @@ def main(stdscr):
     curses.curs_set(0)
     stdscr.nodelay(1)
     stdscr.timeout(100)
-
+    #pantalla(stdscr)
     # create a game box
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3, sw-3]]  # [[ul_y, ul_x], [dr_y, dr_x]]
@@ -142,7 +134,7 @@ def main(stdscr):
         if snake[0] == food:
             # update score
             score += 1
-            #curses.beep()############################
+            #curses.beep()
             score_text = "Score: {}".format(score)
             stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)
 
@@ -165,11 +157,10 @@ def main(stdscr):
             stdscr.addstr(sh//2, sw//2-len(msg)//2, msg)
             stdscr.getch()
             stdscr.nodelay(0)
+            #stdscr.getch()
             time.sleep(2)
             break
+    
     pantalla(stdscr)
-
-
-#pantalla(stdscr)
 
 curses.wrapper(main)
