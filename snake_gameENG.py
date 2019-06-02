@@ -35,7 +35,6 @@ def print_center(stdscr, text):
     stdscr.refresh()
 
 def pantalla(stdscr):
-    stdscr.clear()
     # turn off cursor blinking
     curses.curs_set(0)
 
