@@ -6,11 +6,11 @@ import random
 from curses import textpad
 #from curses import beep
 
-menu = ['New game', 'Exit']
+menu = ['New Game', 'Exit']
 
 def print_menu(stdscr, selected_row_idx):
     stdscr.clear()
-    stdscr.addstr(10, 53, "The Snake Game")
+    stdscr.addstr(10, 53, "THE SNAKE GAME")
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3, sw-3]]  # [[ul_y, ul_x], [dr_y, dr_x]]
     textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
@@ -35,8 +35,11 @@ def print_center(stdscr, text):
     stdscr.refresh()
 
 def pantalla(stdscr):
+    #stdscr.clear()
     # turn off cursor blinking
     curses.curs_set(0)
+    stdscr.nodelay(1)
+    stdscr.timeout(100)
 
     # color scheme for selected row
     curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_GREEN)
@@ -81,8 +84,8 @@ def create_food(snake, box):
 def main(stdscr):
     # initial settings
     curses.curs_set(0)
-    stdscr.nodelay(1)
-    stdscr.timeout(100)
+    
+    
     #pantalla(stdscr)
     # create a game box
     sh, sw = stdscr.getmaxyx()
@@ -159,8 +162,6 @@ def main(stdscr):
             #stdscr.getch()
             time.sleep(2)
             break
-    
     pantalla(stdscr)
 
-curses.wrapper(main)
-
+curses.wrapper(pantalla)
