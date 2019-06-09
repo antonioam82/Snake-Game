@@ -6,7 +6,7 @@ import random
 from curses import textpad
 #from curses import beep
 
-menu = ['New Game', 'Exit']
+menu = ['New Game', 'Quit']
 
 def print_menu(stdscr, selected_row_idx):
     stdscr.clear()
