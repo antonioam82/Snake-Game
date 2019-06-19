@@ -104,7 +104,7 @@ def main(stdscr):
 
     # print score
     score = 0
-    score_text = "Puntuación: {}".format(score)
+    score_text = "Puntos:{}".format(score)
     stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)
 
     while 1:
@@ -135,8 +135,8 @@ def main(stdscr):
             # update score
             score += 1
             #curses.beep()
-            score_text = "Puntuación: {}".format(score)
-            stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)
+            score_text = "Puntos:{}".format(score)
+            stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)#1
 
             # create new food
             food = create_food(snake, box)
@@ -163,3 +163,4 @@ def main(stdscr):
     pantalla(stdscr)
 
 curses.wrapper(pantalla)
+
