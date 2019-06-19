@@ -5,7 +5,6 @@ import time
 import random
 from curses import textpad
 
-
 menu = ['Nuevo Juego', 'Salir']
 
 def print_menu(stdscr, selected_row_idx):
