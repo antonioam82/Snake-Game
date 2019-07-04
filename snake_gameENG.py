@@ -164,5 +164,5 @@ def main(stdscr):
             break
     pantalla(stdscr)
 
-curses.wrapper(pantalla)
+curses.wrapper(pantalla
 
