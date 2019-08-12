@@ -1,5 +1,7 @@
 #!/usr/bin/python
 # -*- coding: latin-1 -*-
+
+#CODIGO PARA PRUEBAS
 import curses
 import time
 import random
@@ -170,8 +172,9 @@ def main(stdscr):
             stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)
 
             # create new food
-            food = create_food(snake, box)
-            stdscr.addstr(food[0], food[1], '*')
+            while paused==False:
+                food = create_food(snake, box)
+                stdscr.addstr(food[0], food[1], '*')
 
             # increase speed of game
             stdscr.timeout(100 - (len(snake)//3)%90)
@@ -195,3 +198,4 @@ def main(stdscr):
     pantalla(stdscr)
 
 curses.wrapper(pantalla)
+
