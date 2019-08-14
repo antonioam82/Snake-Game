@@ -1,18 +1,22 @@
 #!/usr/bin/python
 # -*- coding: latin-1 -*-
-
-#CODIGO PARA PRUEBAS
 import curses
 import time
-import random
+import random, sys
 from curses import textpad
-#from curses import beep
+from curses import beep
 
-menu = ['New Game', 'Quit']
+menu = ['Nuevo Juego', 'Salir']
+
+c1=10
+c2=53
 
 def print_menu(stdscr, selected_row_idx):
     stdscr.clear()
-    stdscr.addstr(10, 53, "THE SNAKE GAME")
+    if sys.platform == "linux2":
+		c1=9
+		c2=30
+    stdscr.addstr(c1, c2, "JUEGO DE LA SERPIENTE")
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3, sw-3]]  # [[ul_y, ul_x], [dr_y, dr_x]]
     textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
@@ -44,14 +48,14 @@ def pantalla(stdscr):
     stdscr.timeout(100)
 
     # color scheme for selected row
-    #curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_GREEN)
+    curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_GREEN)
 
     # specify the current selected row
     current_row = 0
 
     # print the menu
     print_menu(stdscr, current_row)
-    paused=False######################################################3
+
     while 1:
         key = stdscr.getch()
 
@@ -60,13 +64,12 @@ def pantalla(stdscr):
             curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_GREEN)
         elif key == curses.KEY_DOWN and current_row < len(menu)-1:
             current_row += 1
-            curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_RED)
+            curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_RED)
         elif key == curses.KEY_ENTER or key in [10, 13]:
             if current_row== len(menu)-1:
                 print_center(stdscr, "See You Later!".format(menu[current_row]))
                 #stdscr.getch()
                 time.sleep(2)
-                print(paused)
                 break
             else:
                 stdscr.clear()
@@ -87,11 +90,8 @@ def create_food(snake, box):
 def main(stdscr):
     # initial settings
     curses.curs_set(0)
-
-    paused=False
     
-
-        
+    
     #pantalla(stdscr)
     # create a game box
     sh, sw = stdscr.getmaxyx()
@@ -118,35 +118,13 @@ def main(stdscr):
     while 1:
         # non-blocking input
         key = stdscr.getch()
-
+        
+        if key == ord('q'):
+			break
+        
         # set direction if user pressed any arrow key
         if key in [curses.KEY_RIGHT, curses.KEY_LEFT, curses.KEY_DOWN, curses.KEY_UP]:
             direction = key
-        
-        #c=stdscr.getch()########################################################################
-
-        if key==ord('p'):#######################################################################
-            if paused==False:
-                paused=True
-                msg = "Paused"
-                time.sleep(0)
-                stdscr.addstr(sh//2, sw//2-len(msg)//2, msg)
-                stdscr.nodelay(0)
-                stdscr.getch()
-            else:
-                msg = "Game Overrrrrr!"
-                time.sleep(6)
-                paused=False
-                stdscr.addstr(sh//2, sw//2-len(msg)//2, msg)
-                stdscr.getch()
-                stdscr.refresh()
-                
-            #stdscr.nodelay(0)
-            #stdscr.getch()
-            #break
-            
-    
-
 
         # find next position of snake head
         head = snake[0]
@@ -167,14 +145,13 @@ def main(stdscr):
         if snake[0] == food:
             # update score
             score += 1
-            #curses.beep()
+            curses.beep()
             score_text = "Score: {}".format(score)
             stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)
 
             # create new food
-            while paused==False:
-                food = create_food(snake, box)
-                stdscr.addstr(food[0], food[1], '*')
+            food = create_food(snake, box)
+            stdscr.addstr(food[0], food[1], '*')
 
             # increase speed of game
             stdscr.timeout(100 - (len(snake)//3)%90)
@@ -194,7 +171,8 @@ def main(stdscr):
             #stdscr.getch()
             time.sleep(2)
             break
-    
+		
+			
     pantalla(stdscr)
 
 curses.wrapper(pantalla)
