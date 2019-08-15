@@ -121,7 +121,7 @@ def main(stdscr):
         key = stdscr.getch()
         
         if key == ord('q'):
-			break
+		break
         
         # set direction if user pressed any arrow key
         if key in [curses.KEY_RIGHT, curses.KEY_LEFT, curses.KEY_DOWN, curses.KEY_UP]:
