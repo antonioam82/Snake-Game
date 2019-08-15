@@ -97,7 +97,7 @@ def main(stdscr):
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3, sw-3]]  # [[ul_y, ul_x], [dr_y, dr_x]]
     stdscr.addstr(1,3,"'q'=QUIT")ç
-    stdscr.addstr(1,13,"'p'=PAUSE")
+    stdscr.addstr(1,13,"'p'=PAUSE/RESTART")
     textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
 
     # create snake and set initial direction
@@ -134,8 +134,9 @@ def main(stdscr):
             break
 
         # set direction if user pressed any arrow key
-        if key in [curses.KEY_RIGHT, curses.KEY_LEFT, curses.KEY_DOWN, curses.KEY_UP]:
-            direction = key
+	if PAUSE == False:
+		if key in [curses.KEY_RIGHT, curses.KEY_LEFT, curses.KEY_DOWN, curses.KEY_UP]:
+			direction = key
 
         # find next position of snake head
         if PAUSE == False:
