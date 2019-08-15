@@ -97,7 +97,7 @@ def main(stdscr):
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3, sw-3]]  # [[ul_y, ul_x], [dr_y, dr_x]]
     stdscr.addstr(1,3,"'q'=QUIT")ç
-    stdscr.addstr(1,13,"'p'=PAUSE/RESTART")
+    stdscr.addstr(1,13,"'p'=PAUSE/CONTINUE")
     textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
 
     # create snake and set initial direction
