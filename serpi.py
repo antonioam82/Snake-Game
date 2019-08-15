@@ -116,9 +116,17 @@ def main(stdscr):
     score_text = "Score: {}".format(score)
     stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)
 
+    PAUSE = False
+
     while 1:
         # non-blocking input
         key = stdscr.getch()
+	
+	if key == ord('p'):
+		if PAUSE == False:
+			PAUSE = True
+		else:
+			PAUSE = False
         
         if key == ord('q'):
 		break
@@ -139,8 +147,9 @@ def main(stdscr):
             new_head = [head[0]-1, head[1]]
 
         # insert and print new head
-        stdscr.addstr(new_head[0], new_head[1], '#')
-        snake.insert(0, new_head)
+	if PAUSE == False:
+		stdscr.addstr(new_head[0], new_head[1], '#')
+                snake.insert(0, new_head)
 
         # if sanke head is on food
         if snake[0] == food:
