@@ -2,21 +2,14 @@
 # -*- coding: latin-1 -*-
 import curses
 import time
-import random, sys
+import random
 from curses import textpad
-from curses import beep
 
 menu = ['Nuevo Juego', 'Salir']
-
-c1=10
-c2=53
-
+    
 def print_menu(stdscr, selected_row_idx):
     stdscr.clear()
-    if sys.platform == "linux2":
-		c1=9
-		c2=30
-    stdscr.addstr(c1, c2, "JUEGO DE LA SERPIENTE")
+    stdscr.addstr(10, 50, "JUEGO DE LA SERPIENTE")
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3, sw-3]]  # [[ul_y, ul_x], [dr_y, dr_x]]
     textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
@@ -32,12 +25,15 @@ def print_menu(stdscr, selected_row_idx):
             stdscr.addstr(y, x, row)
     stdscr.refresh()
 
-def print_center(stdscr, text):
-    stdscr.clear()
+def center_text(stdscr,text):
     h, w = stdscr.getmaxyx()
     x = w//2 - len(text)//2
     y = h//2
     stdscr.addstr(y, x, text)
+    
+def print_center(stdscr, text):
+    stdscr.clear()
+    center_text(stdscr,text)
     stdscr.refresh()
 
 def pantalla(stdscr):
@@ -67,7 +63,7 @@ def pantalla(stdscr):
             curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_RED)
         elif key == curses.KEY_ENTER or key in [10, 13]:
             if current_row== len(menu)-1:
-                print_center(stdscr, "See You Later!".format(menu[current_row]))
+                print_center(stdscr, "¡Hasta la vista!".format(menu[current_row]))
                 #stdscr.getch()
                 time.sleep(2)
                 break
@@ -91,12 +87,10 @@ def main(stdscr):
     # initial settings
     curses.curs_set(0)
     
-    
-    #pantalla(stdscr)
     # create a game box
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3, sw-3]]  # [[ul_y, ul_x], [dr_y, dr_x]]
-    stdscr.addstr(1,3,"'q'=QUIT")ç
+    stdscr.addstr(1,3,"'q'=QUIT")
     stdscr.addstr(1,13,"'p'=PAUSE/CONTINUE")
     textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
 
@@ -114,29 +108,30 @@ def main(stdscr):
 
     # print score
     score = 0
-    score_text = "Score: {}".format(score)
+    score_text = "Puntos:{}".format(score)
     stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)
 
-    PAUSE = False
+    PAUSE=False
 
     while 1:
-	
-	key = stdscr.getch()
+        # non-blocking input
+        key = stdscr.getch()
 
         if key == ord('p'):
             if PAUSE == False:
                 PAUSE = True
-                #print_center(stdscr,"PAUSE")
+                center_text(stdscr,"PAUSE")
             else:
                 PAUSE = False
+                center_text(stdscr,"     ")
 
         if key == ord('q'):
             break
 
         # set direction if user pressed any arrow key
-	if PAUSE == False:
-		if key in [curses.KEY_RIGHT, curses.KEY_LEFT, curses.KEY_DOWN, curses.KEY_UP]:
-			direction = key
+        if PAUSE == False:
+            if key in [curses.KEY_RIGHT, curses.KEY_LEFT, curses.KEY_DOWN, curses.KEY_UP]:
+                direction = key
 
         # find next position of snake head
         if PAUSE == False:
@@ -186,7 +181,6 @@ def main(stdscr):
                 #stdscr.getch()
                 time.sleep(2)
                 break
-		
     pantalla(stdscr)
 
 curses.wrapper(pantalla)
