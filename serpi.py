@@ -174,17 +174,17 @@ def main(stdscr):
 
         # conditions for game over
         #if PAUSE == False:
-        if (snake[0][0] in [box[0][0], box[1][0]] or 
-            snake[0][1] in [box[0][1], box[1][1]] or 
-            snake[0] in snake[1:]):
-            msg = "Game Over!"
-            stdscr.addstr(sh//2, sw//2-len(msg)//2, msg)
-            stdscr.getch()
-            stdscr.nodelay(0)
-            #stdscr.getch()
-            time.sleep(2)
-            break
+            if (snake[0][0] in [box[0][0], box[1][0]] or
+                snake[0][1] in [box[0][1], box[1][1]] or 
+                snake[0] in snake[1:]):
+                msg = "Game Over!"
+                stdscr.addstr(sh//2, sw//2-len(msg)//2, msg)
+                stdscr.getch()
+                stdscr.nodelay(0)
+                time.sleep(2)
+                break
     pantalla(stdscr)
 
 curses.wrapper(pantalla)
+
 
