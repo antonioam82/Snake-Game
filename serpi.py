@@ -121,9 +121,12 @@ def main(stdscr):
             if PAUSE == False:
                 PAUSE = True
                 center_text(stdscr,"PAUSE")
+                #stdscr.addstr(15,57,"PAUSE")
+                #print_center(stdscr,"PAUSE")
             else:
                 PAUSE = False
                 center_text(stdscr,"     ")
+                #stdscr.addstr(15,57,"     ")
 
         if key == ord('q'):
             break
@@ -134,7 +137,7 @@ def main(stdscr):
                 direction = key
 
         # find next position of snake head
-        if PAUSE == False:
+        #if PAUSE == False:
             head = snake[0]
             if direction == curses.KEY_RIGHT:
                 new_head = [head[0], head[1]+1]
@@ -146,12 +149,12 @@ def main(stdscr):
                 new_head = [head[0]-1, head[1]]
 
         # insert and print new head
-        if PAUSE == False:
+        #if PAUSE == False:
             stdscr.addstr(new_head[0], new_head[1], '#')
             snake.insert(0, new_head)
 
         # if sanke head is on food
-        if PAUSE == False:
+        #if PAUSE == False:
             if snake[0] == food:
                 score += 1
             #curses.beep()
@@ -170,17 +173,17 @@ def main(stdscr):
                 snake.pop()
 
         # conditions for game over
-        if PAUSE == False:
-            if (snake[0][0] in [box[0][0], box[1][0]] or 
-                snake[0][1] in [box[0][1], box[1][1]] or 
-                snake[0] in snake[1:]):
-                msg = "Game Over!"
-                stdscr.addstr(sh//2, sw//2-len(msg)//2, msg)
-                stdscr.getch()
-                stdscr.nodelay(0)
-                #stdscr.getch()
-                time.sleep(2)
-                break
+        #if PAUSE == False:
+        if (snake[0][0] in [box[0][0], box[1][0]] or 
+            snake[0][1] in [box[0][1], box[1][1]] or 
+            snake[0] in snake[1:]):
+            msg = "Game Over!"
+            stdscr.addstr(sh//2, sw//2-len(msg)//2, msg)
+            stdscr.getch()
+            stdscr.nodelay(0)
+            #stdscr.getch()
+            time.sleep(2)
+            break
     pantalla(stdscr)
 
 curses.wrapper(pantalla)
