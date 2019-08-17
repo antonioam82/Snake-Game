@@ -111,7 +111,7 @@ def main(stdscr):
 
     # print score
     score = 0
-    score_text = "Score:{}".format(score)
+    score_text = "Score: {}".format(score)
     stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)
 
     PAUSE=False
@@ -161,7 +161,7 @@ def main(stdscr):
             if snake[0] == food:
                 score += 1
             #curses.beep()
-                score_text = "Score:{}".format(score)
+                score_text = "Score: {}".format(score)
                 stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)#1
 
             # create new food
