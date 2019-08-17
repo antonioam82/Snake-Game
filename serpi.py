@@ -5,11 +5,14 @@ import time
 import random
 from curses import textpad
 
-menu = ['Nuevo Juego', 'Salir']
+menu = ['New Game', 'Quit']
     
 def print_menu(stdscr, selected_row_idx):
     stdscr.clear()
-    stdscr.addstr(10, 50, "JUEGO DE LA SERPIENTE")
+    h, w = stdscr.getmaxyx()
+    texto = "S  N  A  K  E   G  A  M  E"
+    x = w//2 - len(texto)//2
+    stdscr.addstr(10, x, texto)
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3, sw-3]]  # [[ul_y, ul_x], [dr_y, dr_x]]
     textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
@@ -63,7 +66,7 @@ def pantalla(stdscr):
             curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_RED)
         elif key == curses.KEY_ENTER or key in [10, 13]:
             if current_row== len(menu)-1:
-                print_center(stdscr, "¡Hasta la vista!".format(menu[current_row]))
+                print_center(stdscr, "See you later".format(menu[current_row]))
                 #stdscr.getch()
                 time.sleep(2)
                 break
@@ -108,7 +111,7 @@ def main(stdscr):
 
     # print score
     score = 0
-    score_text = "Puntos:{}".format(score)
+    score_text = "Score:{}".format(score)
     stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)
 
     PAUSE=False
@@ -158,7 +161,7 @@ def main(stdscr):
             if snake[0] == food:
                 score += 1
             #curses.beep()
-                score_text = "Puntos:{}".format(score)
+                score_text = "Score:{}".format(score)
                 stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)#1
 
             # create new food
