@@ -124,8 +124,6 @@ def main(stdscr):
             if PAUSE == False:
                 PAUSE = True
                 center_text(stdscr,"PAUSE")
-                #stdscr.addstr(15,57,"PAUSE")
-                #print_center(stdscr,"PAUSE")
             else:
                 PAUSE = False
                 center_text(stdscr,"     ")
