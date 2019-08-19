@@ -131,7 +131,7 @@ def main(stdscr):
                 center_text(stdscr,"     ")
                 #stdscr.addstr(15,57,"     ")
 
-        if key == ord('q'):
+        if key == ord('q') or key == ord('Q'):
             break
 
         # set direction if user pressed any arrow key
