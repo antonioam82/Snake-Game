@@ -5,11 +5,14 @@ import time
 import random
 from curses import textpad
 
-menu = ['Nuevo Juego', 'Salir']
-
+menu = ['New Game', 'Quit']
+    
 def print_menu(stdscr, selected_row_idx):
     stdscr.clear()
-    stdscr.addstr(10, 50, "JUEGO DE LA SERPIENTE")
+    h, w = stdscr.getmaxyx()
+    texto = "S  N  A  K  E   G  A  M  E"
+    x = w//2 - len(texto)//2
+    stdscr.addstr(10, x, texto)
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3, sw-3]]  # [[ul_y, ul_x], [dr_y, dr_x]]
     textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
@@ -25,12 +28,15 @@ def print_menu(stdscr, selected_row_idx):
             stdscr.addstr(y, x, row)
     stdscr.refresh()
 
-def print_center(stdscr, text):
-    stdscr.clear()
+def center_text(stdscr,text):
     h, w = stdscr.getmaxyx()
     x = w//2 - len(text)//2
     y = h//2
     stdscr.addstr(y, x, text)
+    
+def print_center(stdscr, text):
+    stdscr.clear()
+    center_text(stdscr,text)
     stdscr.refresh()
 
 def pantalla(stdscr):
@@ -60,7 +66,7 @@ def pantalla(stdscr):
             curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_RED)
         elif key == curses.KEY_ENTER or key in [10, 13]:
             if current_row== len(menu)-1:
-                print_center(stdscr, "¡Hasta la vista!".format(menu[current_row]))
+                print_center(stdscr, "See you later".format(menu[current_row]))
                 #stdscr.getch()
                 time.sleep(2)
                 break
@@ -87,6 +93,8 @@ def main(stdscr):
     # create a game box
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3, sw-3]]  # [[ul_y, ul_x], [dr_y, dr_x]]
+    stdscr.addstr(28,3,"'q'=QUIT  <SPACE BAR>=PAUSE/CONTINUE")
+    #stdscr.addstr(28,13,")
     textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
 
     # create snake and set initial direction
@@ -103,63 +111,81 @@ def main(stdscr):
 
     # print score
     score = 0
-    score_text = "Puntos:{}".format(score)
+    score_text = "Score: {}".format(score)
     stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)
+
+    PAUSE=False
 
     while 1:
         # non-blocking input
         key = stdscr.getch()
 
+        if key == ord(' '):
+            if PAUSE == False:
+                PAUSE = True
+                center_text(stdscr,"PAUSE")
+                #stdscr.addstr(15,57,"PAUSE")
+                #print_center(stdscr,"PAUSE")
+            else:
+                PAUSE = False
+                center_text(stdscr,"     ")
+                #stdscr.addstr(15,57,"     ")
+
+        if key == ord('q') or key == ord('Q'):
+            break
+
         # set direction if user pressed any arrow key
-        if key in [curses.KEY_RIGHT, curses.KEY_LEFT, curses.KEY_DOWN, curses.KEY_UP]:
-            direction = key
+        if PAUSE == False:
+            if key in [curses.KEY_RIGHT, curses.KEY_LEFT, curses.KEY_DOWN, curses.KEY_UP]:
+                direction = key
 
         # find next position of snake head
-        head = snake[0]
-        if direction == curses.KEY_RIGHT:
-            new_head = [head[0], head[1]+1]
-        elif direction == curses.KEY_LEFT:
-            new_head = [head[0], head[1]-1]
-        elif direction == curses.KEY_DOWN:
-            new_head = [head[0]+1, head[1]]
-        elif direction == curses.KEY_UP:
-            new_head = [head[0]-1, head[1]]
+        #if PAUSE == False:
+            head = snake[0]
+            if direction == curses.KEY_RIGHT:
+                new_head = [head[0], head[1]+1]
+            elif direction == curses.KEY_LEFT:
+                new_head = [head[0], head[1]-1]
+            elif direction == curses.KEY_DOWN:
+                new_head = [head[0]+1, head[1]]
+            elif direction == curses.KEY_UP:
+                new_head = [head[0]-1, head[1]]
 
         # insert and print new head
-        stdscr.addstr(new_head[0], new_head[1], '#')
-        snake.insert(0, new_head)
+        #if PAUSE == False:
+            stdscr.addstr(new_head[0], new_head[1], '#')
+            snake.insert(0, new_head)
 
         # if sanke head is on food
-        if snake[0] == food:
-            # update score
-            score += 1
+        #if PAUSE == False:
+            if snake[0] == food:
+                score += 1
             #curses.beep()
-            score_text = "Puntos:{}".format(score)
-            stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)#1
+                score_text = "Score: {}".format(score)
+                stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)#1
 
             # create new food
-            food = create_food(snake, box)
-            stdscr.addstr(food[0], food[1], '*')
+                food = create_food(snake, box)
+                stdscr.addstr(food[0], food[1], '*')
 
             # increase speed of game
-            stdscr.timeout(100 - (len(snake)//3)%90)
-        else:
+                stdscr.timeout(100 - (len(snake)//3)%90)
+            else:
             # shift snake's tail
-            stdscr.addstr(snake[-1][0], snake[-1][1], ' ')
-            snake.pop()
+                stdscr.addstr(snake[-1][0], snake[-1][1], ' ')
+                snake.pop()
 
         # conditions for game over
-        if (snake[0][0] in [box[0][0], box[1][0]] or 
-            snake[0][1] in [box[0][1], box[1][1]] or 
-            snake[0] in snake[1:]):
-            msg = "Game Over!"
-            stdscr.addstr(sh//2, sw//2-len(msg)//2, msg)
-            stdscr.getch()
-            stdscr.nodelay(0)
-            #stdscr.getch()
-            time.sleep(2)
-            break
+        #if PAUSE == False:
+            if (snake[0][0] in [box[0][0], box[1][0]] or
+                snake[0][1] in [box[0][1], box[1][1]] or 
+                snake[0] in snake[1:]):
+                msg = "Game Over!"
+                stdscr.addstr(sh//2, sw//2-len(msg)//2, msg)
+                stdscr.getch()
+                stdscr.nodelay(0)
+                time.sleep(2)
+                break
     pantalla(stdscr)
 
 curses.wrapper(pantalla)
-
