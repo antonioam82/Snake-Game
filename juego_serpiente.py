@@ -5,7 +5,7 @@ import time
 import random
 from curses import textpad
 
-menu = ['New Game', 'Quit']
+menu = ['Nuevo Juego', 'Salir']
     
 def print_menu(stdscr, selected_row_idx):
     stdscr.clear()
@@ -66,7 +66,7 @@ def pantalla(stdscr):
             curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_RED)
         elif key == curses.KEY_ENTER or key in [10, 13]:
             if current_row== len(menu)-1:
-                print_center(stdscr, "See you later".format(menu[current_row]))
+                print_center(stdscr, "Hasta la vista".format(menu[current_row]))
                 #stdscr.getch()
                 time.sleep(2)
                 break
@@ -111,7 +111,7 @@ def main(stdscr):
 
     # print score
     score = 0
-    score_text = "Score: {}".format(score)
+    score_text = "Puntos: {}".format(score)
     stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)
 
     PAUSE=False
@@ -161,7 +161,7 @@ def main(stdscr):
             if snake[0] == food:
                 score += 1
             #curses.beep()
-                score_text = "Score: {}".format(score)
+                score_text = "Puntos: {}".format(score)
                 stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)#1
 
             # create new food
