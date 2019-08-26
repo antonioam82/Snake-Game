@@ -130,7 +130,7 @@ def main(stdscr):
                 center_text(stdscr,"     ")
                 #stdscr.addstr(15,57,"     ")
                 
-        #back to the options screen
+        #back to options screen
         if key == ord('q') or key == ord('Q'):
             break
 
