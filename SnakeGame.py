@@ -119,7 +119,8 @@ def main(stdscr):
     while 1:
         # non-blocking input
         key = stdscr.getch()
-
+        
+        #pause/continue the game
         if key == ord(' '):
             if PAUSE == False:
                 PAUSE = True
@@ -128,7 +129,8 @@ def main(stdscr):
                 PAUSE = False
                 center_text(stdscr,"     ")
                 #stdscr.addstr(15,57,"     ")
-
+                
+        #back to the options screen
         if key == ord('q') or key == ord('Q'):
             break
 
