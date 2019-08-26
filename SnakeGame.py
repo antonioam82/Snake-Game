@@ -128,7 +128,6 @@ def main(stdscr):
             else:
                 PAUSE = False
                 center_text(stdscr,"     ")
-                #stdscr.addstr(15,57,"     ")
                 
         #back to options screen
         if key == ord('q') or key == ord('Q'):
