@@ -144,7 +144,6 @@ def main(stdscr):
                 direction = key
 
         # find next position of snake head
-        #if PAUSE == False:
             head = snake[0]
             if direction == curses.KEY_RIGHT:
                 new_head = [head[0], head[1]+1]
@@ -161,7 +160,6 @@ def main(stdscr):
             snake.insert(0, new_head)
 
         # if sanke head is on food
-        #if PAUSE == False:
             if snake[0] == food:
                 score += 1
                 if score > hi_score:
@@ -170,7 +168,7 @@ def main(stdscr):
                 hi_score_text = "Hi-Score: {}".format(hi_score)
                 score_text = "Score: {}".format(score)
                 stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)#1
-                stdscr.addstr(1, 10 - len(hi_score_text)//2, hi_score_text)
+                stdscr.addstr(1, 10 - (len(hi_score_text)//2), hi_score_text)
 
             # create new food
                 food = create_food(snake, box)
@@ -184,7 +182,6 @@ def main(stdscr):
                 snake.pop()
 
         # conditions for game over
-        #if PAUSE == False:
             if (snake[0][0] in [box[0][0], box[1][0]] or
                 snake[0][1] in [box[0][1], box[1][1]] or 
                 snake[0] in snake[1:]):
@@ -197,4 +194,5 @@ def main(stdscr):
     pantalla(stdscr)
 
 curses.wrapper(pantalla)
+
 
