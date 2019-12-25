@@ -95,7 +95,7 @@ def main(stdscr):
     # create a game box
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3, sw-3]]  # [[ul_y, ul_x], [dr_y, dr_x]]
-    stdscr.addstr(28,3,"'q'=QUIT  <SPACE BAR>=PAUSE/CONTINUE")
+    stdscr.addstr(1,81,"'q'=QUIT  <SPACE BAR>=PAUSE/CONTINUE")#28,3
     #stdscr.addstr(28,13,")
     textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
 
@@ -197,3 +197,4 @@ def main(stdscr):
     pantalla(stdscr)
 
 curses.wrapper(pantalla)
+
