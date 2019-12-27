@@ -117,7 +117,7 @@ def main(stdscr):
     score_text = "Score: {}".format(score)####################################
     hi_score_text = "Hi-Score: {}".format(hi_score)
     stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)
-    stdscr.addstr(1, 10 - len(hi_score_text)//2, hi_score_text)
+    stdscr.addstr(1, 4, hi_score_text)
 
     PAUSE=False
 
@@ -167,8 +167,8 @@ def main(stdscr):
             #curses.beep()
                 hi_score_text = "Hi-Score: {}".format(hi_score)
                 score_text = "Score: {}".format(score)
-                stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)#1
-                stdscr.addstr(1, 10 - (len(hi_score_text)//2), hi_score_text)
+                stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)
+                stdscr.addstr(1, 4, hi_score_text)  #- (len(hi_score_text)//2)
 
             # create new food
                 food = create_food(snake, box)
