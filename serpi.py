@@ -161,10 +161,10 @@ def main(stdscr):
 
         # if sanke head is on food
             if snake[0] == food:
+                curses.beep()
                 score += 1
                 if score > hi_score:
                     hi_score+=1
-            #curses.beep()
                 hi_score_text = "Hi-Score: {}".format(hi_score)
                 score_text = "Score: {}".format(score)
                 stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)
