@@ -6,6 +6,7 @@ import random
 from curses import textpad
 
 menu = ['Nuevo Juego', 'Salir']
+hi_score = 0
     
 def print_menu(stdscr, selected_row_idx):
     stdscr.clear()
@@ -66,7 +67,7 @@ def pantalla(stdscr):
             curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_RED)
         elif key == curses.KEY_ENTER or key in [10, 13]:
             if current_row== len(menu)-1:
-                print_center(stdscr, "Hasta la vista".format(menu[current_row]))
+                print_center(stdscr, "See you later".format(menu[current_row]))
                 #stdscr.getch()
                 time.sleep(2)
                 break
@@ -87,13 +88,14 @@ def create_food(snake, box):
     return food
 
 def main(stdscr):
+    global FT, hi_score
     # initial settings
     curses.curs_set(0)
     
     # create a game box
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3, sw-3]]  # [[ul_y, ul_x], [dr_y, dr_x]]
-    stdscr.addstr(28,3,"'q'=QUIT  <SPACE BAR>=PAUSE/CONTINUE")
+    stdscr.addstr(1,81,"'q'=QUIT  <SPACE BAR>=PAUSE/CONTINUE")#28,3
     #stdscr.addstr(28,13,")
     textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
 
@@ -111,8 +113,11 @@ def main(stdscr):
 
     # print score
     score = 0
-    score_text = "Puntos: {}".format(score)
+    #hi_score = 0
+    score_text = "Score: {}".format(score)####################################
+    hi_score_text = "Hi-Score: {}".format(hi_score)
     stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)
+    stdscr.addstr(1, 4, hi_score_text)
 
     PAUSE=False
 
@@ -129,7 +134,6 @@ def main(stdscr):
             else:
                 PAUSE = False
                 center_text(stdscr,"     ")
-                #stdscr.addstr(15,57,"     ")
 
         if key == ord('q') or key == ord('Q'):
             break
@@ -140,7 +144,6 @@ def main(stdscr):
                 direction = key
 
         # find next position of snake head
-        #if PAUSE == False:
             head = snake[0]
             if direction == curses.KEY_RIGHT:
                 new_head = [head[0], head[1]+1]
@@ -157,12 +160,15 @@ def main(stdscr):
             snake.insert(0, new_head)
 
         # if sanke head is on food
-        #if PAUSE == False:
             if snake[0] == food:
+                curses.beep()
                 score += 1
-            #curses.beep()
-                score_text = "Puntos: {}".format(score)
-                stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)#1
+                if score > hi_score:
+                    hi_score+=1
+                hi_score_text = "Hi-Score: {}".format(hi_score)
+                score_text = "Score: {}".format(score)
+                stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)
+                stdscr.addstr(1, 4, hi_score_text)  #- (len(hi_score_text)//2)
 
             # create new food
                 food = create_food(snake, box)
@@ -176,7 +182,6 @@ def main(stdscr):
                 snake.pop()
 
         # conditions for game over
-        #if PAUSE == False:
             if (snake[0][0] in [box[0][0], box[1][0]] or
                 snake[0][1] in [box[0][1], box[1][1]] or 
                 snake[0] in snake[1:]):
