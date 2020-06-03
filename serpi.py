@@ -64,7 +64,8 @@ def pantalla(stdscr):
         elif key == curses.KEY_ENTER or key in [10, 13]:
             if current_row== len(menu)-1:
                 print_center(stdscr, "See you later".format(menu[current_row]))
-                time.sleep(2)
+                playsound("seeyou.mp3")
+                time.sleep(1)
                 break
             else:
                 stdscr.clear()
@@ -165,7 +166,7 @@ def main(stdscr):
                 stdscr.getch()
                 playsound("game over.mp3")
                 stdscr.nodelay(0)
-                time.sleep(2)
+                time.sleep(1)
                 break
     pantalla(stdscr)
 
