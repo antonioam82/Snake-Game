@@ -4,6 +4,7 @@ import curses
 import time
 import random
 from playsound import playsound
+import threading
 from curses import textpad
 
 menu = ['New Game', 'Quit']
@@ -106,6 +107,13 @@ def main(stdscr):
     stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)
     stdscr.addstr(1, 4, hi_score_text)
 
+    def pause_sound():
+        playsound("gamepaused.mp3")
+
+    def init_pausesound():
+        t = threading.Thread(target=pause_sound)
+        t.start()
+
     PAUSE = False
 
     while 1:
@@ -114,10 +122,12 @@ def main(stdscr):
         if key == ord(' '):
             if PAUSE == False:
                 PAUSE = True
+                init_pausesound()
                 center_text(stdscr,"PAUSE")
             else:
                 PAUSE = False
                 center_text(stdscr,"     ")
+
 
         if key == ord('q') or key == ord('Q'):
             break
