@@ -3,6 +3,7 @@
 import curses
 import time
 import random
+import os
 from curses import textpad
 
 menu = ['Nuevo Juego', 'Salir']
@@ -95,11 +96,13 @@ def main(stdscr):
     # create a game box
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3, sw-3]]  # [[ul_y, ul_x], [dr_y, dr_x]]
-    stdscr.addstr(1,81,"'q' = QUIT  SPACE BAR=PAUSE/CONTINUE")#Windows
-    #Linux
-    #indication_text = "'q' = QUIT,  <SPACE BAR>=PAUSE/CONTINUE"
-    #x = sw//2 - len(indication_text)//2
-    #stdscr.addstr(22,x,indication_text)
+    #stdscr.addstr(1,81,"'q' = QUIT  SPACE BAR=PAUSE/CONTINUE")#Windows
+    if os.name == "posix":
+		indication_text = "'q' = QUIT,  <SPACE BAR>=PAUSE/CONTINUE"
+		x = sw//2 - len(indication_text)//2
+		stdscr.addstr(22,x,indication_text)
+    else:
+		stdscr.addstr(1,81,"'q' = QUIT  SPACE BAR=PAUSE/CONTINUE")
     textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
 
     # create snake and set initial direction
