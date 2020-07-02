@@ -90,7 +90,6 @@ def main(stdscr):
     
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3, sw-3]]
-    #stdscr.addstr(1,81,"'q'=QUIT  <SPACE BAR>=PAUSE/CONTINUE")
     if os.name == "posix":
 		indication_text = "'q' = QUIT,  <SPACE BAR>=PAUSE/CONTINUE"
 		x = sw//2 - len(indication_text)//2
