@@ -11,10 +11,9 @@ from curses import textpad
 
 menu = ['New Game', 'Quit']
 if not 'hiScore' in os.listdir():
-    #info = open('hiScore','wb')
     pickle.dump(0,open('hiScore',"wb"))
 
-hi_score = pickle.load(open('hiScore','rb'))#[0])
+hi_score = pickle.load(open('hiScore','rb'))
     
 def print_menu(stdscr, selected_row_idx):
     stdscr.clear()
