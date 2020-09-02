@@ -11,6 +11,7 @@ from curses import textpad
 
 menu = ['New Game', 'Quit']
 if not 'hiScore' in os.listdir():
+    #info = open('hiScore','wb')
     pickle.dump(0,open('hiScore',"wb"))
 
 hi_score = pickle.load(open('hiScore','rb'))
@@ -177,7 +178,7 @@ def main(stdscr):
             if (snake[0][0] in [box[0][0], box[1][0]] or
                 snake[0][1] in [box[0][1], box[1][1]] or 
                 snake[0] in snake[1:]):
-                msg = "Game Over!"
+                msg = "GAME OVER"
                 stdscr.addstr(sh//2, sw//2-len(msg)//2, msg)
                 stdscr.getch()
                 playsound("game over.mp3")
