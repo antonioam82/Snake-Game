@@ -11,6 +11,7 @@ from curses import textpad
 
 menu = ['New Game', 'Quit']
 if not 'hiScore' in os.listdir():
+    #info = open('hiScore','wb')
     pickle.dump(0,open('hiScore',"wb"))
 
 hi_score = pickle.load(open('hiScore','rb'))
@@ -69,7 +70,7 @@ def pantalla(stdscr):
             curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_RED)
         elif key == curses.KEY_ENTER or key in [10, 13]:
             if current_row== len(menu)-1:
-                pickle.dump(hi_score,open("hiScore","wb"))
+                #pickle.dump(hi_score,open("hiScore","wb"))
                 print_center(stdscr, "See you later".format(menu[current_row]))
                 playsound("seeyou.mp3")
                 time.sleep(1)
@@ -181,6 +182,7 @@ def main(stdscr):
                 stdscr.addstr(sh//2, sw//2-len(msg)//2, msg)
                 stdscr.getch()
                 playsound("game over.mp3")
+                pickle.dump(hi_score,open("hiScore","wb"))
                 stdscr.nodelay(0)
                 time.sleep(1)
                 break
