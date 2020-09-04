@@ -11,7 +11,6 @@ from curses import textpad
 
 menu = ['New Game', 'Quit']
 if not 'hiScore' in os.listdir():
-    #info = open('hiScore','wb')
     pickle.dump(0,open('hiScore',"wb"))
 
 hi_score = pickle.load(open('hiScore','rb'))
@@ -181,7 +180,7 @@ def main(stdscr):
                 msg = "GAME OVER"
                 stdscr.addstr(sh//2, sw//2-len(msg)//2, msg)
                 stdscr.getch()
-                playsound("game over.mp3")
+                playsound("gameover.mp3")
                 pickle.dump(hi_score,open("hiScore","wb"))
                 stdscr.nodelay(0)
                 time.sleep(1)
