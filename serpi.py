@@ -31,6 +31,7 @@ def print_menu(stdscr, selected_row_idx):
             stdscr.addstr(y, x, row)
     stdscr.refresh()
 
+#UBICAR TEXTO EN EL CENTRO DE LA PANTALLA.
 def center_text(stdscr,text):
     h, w = stdscr.getmaxyx()
     x = w//2 - len(text)//2
@@ -73,7 +74,8 @@ def pantalla(stdscr):
                 main(stdscr)
                 break
         print_menu(stdscr, current_row)      
-          
+
+#MUESTRA "*" EN UN PUNTO ALEATORIO DE LA PANTALLA.          
 def create_food(snake, box):
     food = None
     while food is None:
@@ -86,27 +88,32 @@ def create_food(snake, box):
 def main(stdscr):
     global FT, hi_score
     curses.curs_set(0)
-    
+
+    #DELIMITAMOS ÁREA DEL JUEGO
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3, sw-3]]
     stdscr.addstr(1,81,"'q'=QUIT  <SPACE BAR>=PAUSE/CONTINUE")
     textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
 
+    #CREAMOS SERPIENTE Y DEFINIMOS MOVIMIENTO INICIAL
     snake = [[sh//2, sw//2+1], [sh//2, sw//2], [sh//2, sw//2-1]]
     direction = curses.KEY_RIGHT
-
+    
     for y,x in snake:
         stdscr.addstr(y, x, '#')
 
+    #CREAMOS COMIDA PARA LA SERPIENTE.
     food = create_food(snake, box)
     stdscr.addstr(food[0], food[1], '*')
 
+    #TEXTOS
     score = 0
     score_text = "Score: {}".format(score)
     hi_score_text = "Hi-Score: {}".format(hi_score)
     stdscr.addstr(1, sw//2 - len(score_text)//2, score_text)
     stdscr.addstr(1, 4, hi_score_text)
 
+    #SONIDO PAUSE
     def pause_sound():
         playsound("gamepaused.mp3")
 
@@ -119,16 +126,17 @@ def main(stdscr):
     while 1:
         key = stdscr.getch()
 
+        #PAUSAR JUEGO Y MOSTRAR 'PAUSE' EN PANTALLA.
         if key == ord(' '):
             if PAUSE == False:
                 PAUSE = True
-                init_pausesound()
-                center_text(stdscr,"PAUSE")
+                init_pausesound()#REPRODUCIR AUDIO DE PAUSE
+                center_text(stdscr,"PAUSE")#MOSTRAR 'PAUSE' EN EL CENTRO DE LA PANTALLA.
             else:
                 PAUSE = False
                 center_text(stdscr,"     ")
 
-
+        #INTERRUMPIR JUEGO Y VOLVER A LA PANTALLA DE INICIO.
         if key == ord('q') or key == ord('Q'):
             break
 
@@ -137,6 +145,8 @@ def main(stdscr):
                 direction = key
                 
             head = snake[0]
+
+            #CONTROL DE DIRECCIÓN DE LA SERPIENTE.
             if direction == curses.KEY_RIGHT:
                 new_head = [head[0], head[1]+1]
             elif direction == curses.KEY_LEFT:
@@ -145,10 +155,11 @@ def main(stdscr):
                 new_head = [head[0]+1, head[1]]
             elif direction == curses.KEY_UP:
                 new_head = [head[0]-1, head[1]]
-
+            
             stdscr.addstr(new_head[0], new_head[1], '#')
             snake.insert(0, new_head)
 
+            #INCREMENTAR SERPIENTE.
             if snake[0] == food:
                 curses.beep()
                 score += 1
@@ -165,19 +176,23 @@ def main(stdscr):
 
                 stdscr.timeout(100 - (len(snake)//3)%90)
             else:
+                #MOVIMIENTO DE LA SERPIENTE
                 stdscr.addstr(snake[-1][0], snake[-1][1], ' ')
                 snake.pop()
 
+            #PERDIDA DE LA PARTIDA.
             if (snake[0][0] in [box[0][0], box[1][0]] or
                 snake[0][1] in [box[0][1], box[1][1]] or 
                 snake[0] in snake[1:]):
-                msg = "GAME OVER"
+                msg = "Game Over!"
                 stdscr.addstr(sh//2, sw//2-len(msg)//2, msg)
                 stdscr.getch()
                 playsound("game over.mp3")
                 stdscr.nodelay(0)
                 time.sleep(1)
                 break
+    #FINALIZAR PARTIDA
+    #VOLVER AL MENÚ DE INICIO.
     pantalla(stdscr)
 
 curses.wrapper(pantalla)
