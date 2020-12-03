@@ -9,7 +9,8 @@ from curses import textpad
 
 menu = ['New Game', 'Quit']
 hi_score = 0
-    
+
+#MUESTRA PANTALLA/MENÚ DE INICIO   
 def print_menu(stdscr, selected_row_idx):
     stdscr.clear()
     h, w = stdscr.getmaxyx()
@@ -48,13 +49,17 @@ def pantalla(stdscr):
     stdscr.nodelay(1)
     stdscr.timeout(100)
 
+    #COLOR INICIAL PARA OPCIONES EN PANTALLA.
     curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_GREEN)
 
+    #OPCIÓN SELECCIONADA.
     current_row = 0
 
+    #MOSTRAR MENÚ EN PANTALLA
     print_menu(stdscr, current_row)
 
     while 1:
+        #COMPORTAMIENTO DEL CURSOR.
         key = stdscr.getch()
 
         if key == curses.KEY_UP and current_row > 0:
@@ -195,6 +200,7 @@ def main(stdscr):
     #VOLVER AL MENÚ DE INICIO.
     pantalla(stdscr)
 
+#EJECUTA "pantalla()".
 curses.wrapper(pantalla)
 
 
