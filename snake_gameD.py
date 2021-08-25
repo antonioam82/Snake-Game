@@ -186,7 +186,7 @@ def main(stdscr):
                 stdscr.nodelay(0)
                 time.sleep(1)
                 break
-            if segments == 3159:
+            if segments == 2736:
                 msg = "CONGRATULATIONS, YOU WON!"
                 stdscr.clear()
                 sh, sw = stdscr.getmaxyx()
