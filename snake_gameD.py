@@ -169,6 +169,7 @@ def main(stdscr):
                 break
             if segments == 3599:
                 msg = "CONGRATULATIONS, YOU WON!"
+                stdscr.clear()
                 stdscr.addstr(sh//2, sw//2-len(msg)//2, msg)
                 stdscr.getch()
                 stdscr.nodelay(0)
