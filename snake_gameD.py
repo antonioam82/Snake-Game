@@ -3,6 +3,8 @@
 import curses
 import time
 import random
+from playsound import playsound
+import threading
 from curses import textpad
  
 menu = ['New Game', 'Quit']
@@ -17,6 +19,7 @@ def print_menu(stdscr, selected_row_idx):
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3, sw-3]]
     textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
+    #h, w = stdscr.getmaxyx()
     for idx, row in enumerate(menu):
         x = w//2 - len(row)//2
         y = h//2 - len(menu)//2 + idx
@@ -62,7 +65,8 @@ def pantalla(stdscr):
         elif key == curses.KEY_ENTER or key in [10, 13]:
             if current_row== len(menu)-1:
                 print_center(stdscr, "See you later".format(menu[current_row]))
-                time.sleep(2)
+                playsound("seeyou.mp3")
+                time.sleep(1)
                 break
             else:
                 stdscr.clear()
@@ -105,6 +109,20 @@ def main(stdscr):
     stdscr.addstr(1, 4, hi_score_text)
  
     PAUSE = False
+
+    def pause_sound():
+        playsound("gamepaused.mp3")
+
+    def init_pausesound():
+        t = threading.Thread(target=pause_sound)
+        t.start()
+
+    def play_congrats():
+        playsound("congrats.mp3")
+
+    def init_congrats():
+        t2 = threading.Thread(target=play_congrats)
+        t2.start()
  
     while 1:
         key = stdscr.getch()
@@ -112,6 +130,7 @@ def main(stdscr):
         if key == ord(' '):
             if PAUSE == False:
                 PAUSE = True
+                init_pausesound()
                 center_text(stdscr,"PAUSE")
             else:
                 PAUSE = False
@@ -163,20 +182,21 @@ def main(stdscr):
                 msg = "GAME OVER"
                 stdscr.addstr(sh//2, sw//2-len(msg)//2, msg)
                 stdscr.getch()
+                playsound("game over.mp3")
                 stdscr.nodelay(0)
-                time.sleep(2)
+                time.sleep(1)
                 break
-            if segments == 5:#3599:
+            if segments == 53599:
                 msg = "CONGRATULATIONS, YOU WON!"
                 stdscr.clear()
                 sh, sw = stdscr.getmaxyx()
                 stdscr.addstr(sh//2, sw//2-len(msg)//2, msg)
                 box = [[3,3], [sh-3, sw-3]]
                 textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
-                
+                init_congrats()
                 stdscr.getch()
                 stdscr.nodelay(0)
-                time.sleep(5)
+                time.sleep(3)
                 break
                 
     pantalla(stdscr)
