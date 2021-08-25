@@ -166,10 +166,14 @@ def main(stdscr):
                 stdscr.nodelay(0)
                 time.sleep(2)
                 break
-            if segments == 3599:
+            if segments == 5:#3599:
                 msg = "CONGRATULATIONS, YOU WON!"
                 stdscr.clear()
+                sh, sw = stdscr.getmaxyx()
                 stdscr.addstr(sh//2, sw//2-len(msg)//2, msg)
+                box = [[3,3], [sh-3, sw-3]]
+                textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
+                
                 stdscr.getch()
                 stdscr.nodelay(0)
                 time.sleep(5)
