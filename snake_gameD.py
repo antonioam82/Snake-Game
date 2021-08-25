@@ -17,7 +17,6 @@ def print_menu(stdscr, selected_row_idx):
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3, sw-3]]
     textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
-    h, w = stdscr.getmaxyx()
     for idx, row in enumerate(menu):
         x = w//2 - len(row)//2
         y = h//2 - len(menu)//2 + idx
